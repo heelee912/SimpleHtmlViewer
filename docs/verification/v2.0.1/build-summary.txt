@@ -1,0 +1,6 @@
+lintDebug: 0 errors, 12 warnings
+testDebugUnitTest: 18 tests, 0 failures, 0 errors
+assembleDebug: succeeded
+assembleDebugAndroidTest: succeeded
+JDK 21 / Gradle 8.14 / Android Gradle Plugin 8.11.1 / compileSdk 35
+Published APK is debug signed. CI has a different generated debug key.

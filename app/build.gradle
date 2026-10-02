@@ -1,34 +1,59 @@
-plugins { id 'com.android.application' }
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
+}
 
 android {
     namespace 'com.triphtml.viewer'
     compileSdk 35
     defaultConfig {
+        // Same package and launcher component as 1.x so the update keeps SAF grants, storage and shortcuts.
         applicationId 'com.triphtml.viewer'
         minSdk 26
         targetSdk 35
-        versionCode 2
-        versionName '1.1'
-        testInstrumentationRunner 'com.triphtml.viewer.ViewerInstrumentation'
+        versionCode 4
+        versionName '2.0.1'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    buildTypes {
+        release {
+            // Compose is much smoother when optimized. Signed with the same debug key as earlier builds
+            // so it installs over them without losing data.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    buildFeatures { compose true }
     lint { abortOnError true; checkReleaseBuilds true }
 }
 
-// Domain tests use the JDK alone. The shipping APK has no third-party dependencies.
-tasks.register('compilePolicyTests', JavaCompile) {
-    source fileTree('src/main/java') { include '**/DocumentAddress.java', '**/LinkPolicy.java', '**/DocumentTitle.java', '**/CssColor.java' }
-    source fileTree('src/policyTest/java')
-    classpath = files()
-    destinationDirectory = layout.buildDirectory.dir('policy-tests')
-    sourceCompatibility = '17'
-    targetCompatibility = '17'
+kotlin {
+    compilerOptions { jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17 }
 }
-tasks.register('policyTest', JavaExec) {
-    dependsOn 'compilePolicyTests'
-    classpath = files(layout.buildDirectory.dir('policy-tests'))
-    mainClass = 'com.triphtml.viewer.PolicyTests'
+
+dependencies {
+    def composeBom = platform('androidx.compose:compose-bom:2025.06.00')
+    implementation composeBom
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.core:core-ktx:1.16.0'
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.foundation:foundation'
+    implementation 'androidx.compose.material3:material3'
+
+    testImplementation 'junit:junit:4.13.2'
+
+    androidTestImplementation composeBom
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
 }

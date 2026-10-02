@@ -1,0 +1,4 @@
+com.triphtml.viewer.domain.DocumentAddressTest: tests=6 failures=0 errors=0
+com.triphtml.viewer.domain.DocumentTitleTest: tests=4 failures=0 errors=0
+com.triphtml.viewer.domain.LinkPolicyTest: tests=5 failures=0 errors=0
+com.triphtml.viewer.domain.PageColorTest: tests=3 failures=0 errors=0

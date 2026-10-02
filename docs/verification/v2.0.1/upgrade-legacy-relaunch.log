@@ -1,0 +1,4 @@
+PASS process restart retains SAF grant and localStorage
+PASS relaunch opens straight into full-screen reading
+
+Viewer tests: 2 passed. 0 failed.

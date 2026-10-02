@@ -1,19 +1,6 @@
 <resources>
+    <!-- The document WebView. Tests find it by this id. -->
     <item name="document_view" type="id" />
-    <item name="open_file" type="id" />
-    <item name="refresh" type="id" />
-    <!-- Kept for tests: the action that returns to reading, now "읽기 계속" in the document tools. -->
-    <item name="hide_controls" type="id" />
+    <!-- Accessibility action on the page that opens the document tools. Same id as in 1.x. -->
     <item name="show_controls" type="id" />
-    <item name="document_status" type="id" />
-    <item name="document_title" type="id" />
-    <item name="choose_document" type="id" />
-    <item name="document_tools" type="id" />
-    <item name="previous_position" type="id" />
-    <item name="exit_hint" type="id" />
-    <item name="file_choice" type="id" />
-    <item name="retry_document" type="id" />
-    <item name="reading_notice" type="id" />
-    <item name="dismiss_notice" type="id" />
-    <item name="loading_progress" type="id" />
 </resources>

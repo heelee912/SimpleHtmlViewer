@@ -1,6 +1,6 @@
 # 여행 HTML 뷰어
 
-여행 일정 HTML을 전체화면으로 읽는 작은 Android 앱입니다. Java Activity와 Android WebView를 사용합니다. 광고·계정·백엔드·로컬 HTTP 서버가 없습니다.
+여행 일정 HTML을 전체화면으로 읽는 Android 앱입니다. Kotlin·Jetpack Compose로 첫 화면과 문서 도구를 만들고 Android WebView로 HTML을 표시합니다. 광고·계정·백엔드·로컬 HTTP 서버가 없습니다.
 
 ## 요구사항과 달성 상태
 
@@ -24,20 +24,22 @@
 
 ## 다운로드
 
-[릴리스에서 APK와 여행 일정 템플릿 다운로드](https://github.com/heelee912/SimpleHtmlViewer/releases/tag/v1.1-debug)
+[릴리스에서 APK와 여행 일정 템플릿 다운로드](https://github.com/heelee912/SimpleHtmlViewer/releases/tag/v2.0.1-debug)
 
 - 앱 이름: **여행 HTML 뷰어**
 - 패키지: `com.triphtml.viewer`
-- Android 8.0 이상 / 앱 버전 1.1 / versionCode 2
-- APK: `SimpleHtmlViewer-redesign-debug.apk` — 71,991 bytes
-- SHA256: `83742AC8FB566C84E9EF93164114CED3D545EBC6B3FEB013660219EE07BCF104`
+- Android 8.0 이상 / 앱 버전 2.0.1 / versionCode 4
+- APK: `SimpleHtmlViewer-2.0.1-debug.apk` — 9,443,710 bytes
+- SHA256: `36548BC4A7D984BF5B98DCBEB655D396A539733ABE257C22612882FF7BF04E0F`
 - 현재 배포물은 Android Debug 서명의 APK입니다.
 - [여행 일정 템플릿](templates/여행%20일정%20템플릿.html)은 별도 HTML 파일입니다. APK에 들어 있지 않습니다.
+
+공개 1.1/code 2와 로컬 검토본 2.0/code 3보다 높은 버전입니다. 기존 공개 APK와 같은 패키지·런처·서명 인증서를 유지했습니다. 1.1 위에 실제 업데이트 설치 후 기존 문서·지속 읽기 권한·localStorage 유지를 전용 에뮬레이터에서 확인했습니다. **앱을 삭제하거나 데이터를 지울 필요가 없습니다.**
 
 ## 사용
 
 1. 첫 화면의 **HTML 파일 열기**로 파일을 선택합니다.
-2. 문서는 기본 전체화면으로 표시합니다. 읽는 중 **뒤로 가기**를 누르면 문서 도구가 열립니다.
+2. 문서는 기본 전체화면으로 표시합니다. **뒤로 가기**는 열린 HTML dialog를 먼저 닫고 그다음 문서 도구를 엽니다. dialog가 없다면 바로 문서 도구가 열립니다.
 3. 도구에서 **새로고침**·**다른 파일 열기**·**읽기 계속**을 선택합니다. 도구가 열린 상태에서 뒤로 가기를 다시 누르면 앱을 나갑니다.
 4. 다시 실행하면 마지막 문서를 엽니다. 같은 문서를 새로고침하거나 Activity가 재생성돼도 지속 파일 권한과 문서별 localStorage를 유지합니다.
 5. 외부 링크는 사용자 조작으로 Android 앱에 전달합니다. Maps 링크는 설치된 Google Maps를 우선 시도합니다.
@@ -54,42 +56,53 @@ TalkBack의 문서 접근성 동작 **문서 도구 열기**로도 도구를 열
 
 ## 개인정보와 권한
 
-요청 권한은 `INTERNET` 하나입니다. 사진·연락처·위치·저장소 전체 접근 권한은 요청하지 않습니다. Android 파일 선택창에서 선택한 문서의 지속 읽기 권한만 사용합니다.
+플랫폼 권한은 `INTERNET`입니다. AndroidX가 추가하는 앱 내부 서명 권한 `com.triphtml.viewer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`도 선언됩니다. 이는 사진·연락처·위치·저장소 권한이나 사용자에게 승인받는 런타임 권한이 아닙니다. Android 파일 선택창에서 선택한 문서의 지속 읽기 권한만 사용합니다.
 
 배포 APK에는 사용자의 여행 문서·예약 정보·휴대폰 저장값이 들어 있지 않습니다. 선택 파일 URI와 제목 및 문서별 웹 저장값은 사용하는 휴대폰의 앱 저장공간에 남으며 다른 사용자에게 배포되는 APK에 포함되지 않습니다. Android 백업은 비활성화돼 있습니다.
 
 앱 자체의 광고·분석·서버 업로드 코드는 없습니다. 사용자가 연 HTML에 HTTPS 글꼴·이미지 등이 있으면 WebView가 해당 서버에 요청합니다. 외부 링크를 누르면 대상 Android 앱이 열립니다.
 
-첨부 템플릿의 연락처·예약번호·주소·날짜는 비어 있으며 장소명과 숙소명은 일반 자리표시자입니다. 템플릿을 작성한 뒤 공유할 때에는 작성한 내용을 확인하세요.
+첨부 템플릿의 기본 여행 데이터에서 연락처·예약번호·주소·날짜는 비어 있으며 장소명과 숙소명은 일반 자리표시자입니다. 작성 계약과 완성 가상 예시는 소스의 비렌더링 영역에 있습니다. 가상 예시는 기본 여행 데이터로 읽거나 화면에 표시하지 않습니다. 실제 개인 여행·예약·성명은 공개하지 않았습니다.
+
+## 시간표 템플릿
+
+기존 일정 카드와 시간표 버튼·모달을 유지합니다. 시간표는 예정편뿐 아니라 의미 있는 조기 출발·지연 범위와 일정 손실이 시작되는 편을 함께 다룹니다. **노선의 실제 막차**와 **현재 선택한 날의 이후 일정을 유지할 수 있는 최후 안전편**을 구분합니다. 매진인 막차도 실제 운행한다면 노선 막차로 남고 다른 유효 안전편을 지우지 않습니다.
+
+도보·승차 여유·고정 환승·최소 관람·마지막 입장·행사·숙소 마감에서 역산하고 본문 일정의 순서·시각·조건과 대조합니다. 운행일·요일·운휴·예약·공식 출처·확인일이 빠지거나 본문과 어긋나면 안전을 확정하지 않습니다. 실제 출처의 진실성과 조사 범위를 자동으로 보증하거나 여러 날의 우회 경로를 계산하지는 않습니다.
+
+5일·8일처럼 데이터 일수에 맞춰 날짜를 표시합니다. 확인 표시와 선택 대안은 파일·여행별로 분리 저장합니다. 상세 모달은 스크롤·닫기·뒤로 가기·회전·Maps 이동과 복귀를 지원합니다. 작성 안내와 가상 예시를 숨기는 구조는 HTML 안에 있으며 작성자의 수동 삭제에 의존하지 않습니다.
+
+배포 템플릿은 빈 작성용 문서입니다. 완성 여행 검사에서는 의도적으로 거부됩니다. 실제 여행 파일을 작성한 뒤 `node scripts/validate-itinerary.mjs --final FILE.html`로 검사할 수 있습니다.
 
 ## 빌드
 
 JDK 17 이상과 Android SDK 35가 필요합니다. Gradle 8.14 Wrapper와 Android Gradle Plugin 8.11.1을 사용합니다. `ANDROID_HOME`을 SDK 경로로 지정하거나 개인 `local.properties`의 `sdk.dir`에 지정하세요. 개인 설정·서명 키는 커밋하지 않습니다.
 
 ```sh
-./gradlew :app:lintDebug :app:policyTest :app:assembleDebug :app:assembleDebugAndroidTest
+node scripts/test-itinerary.mjs
+node scripts/prepare-itinerary-fixtures.mjs
+./gradlew :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
 ```
 
 Windows에서는 `gradlew.bat`을 사용합니다. APK 출력은 `app/build/outputs/apk/debug/app-debug.apk`입니다. 다른 컴퓨터의 Debug 서명은 배포 서명과 달라 기존 설치본을 덮어쓸 수 없을 수 있습니다.
 
 ## 검사
 
-배포한 앱은 정책 57 assertions 및 Android **31 검사**를 통과했습니다. 기존 28 검사에 최종 APK의 실제 Maps 전환·사용 불가 분기 3 검사를 추가했습니다. Android 검사는 API35 전용 에뮬레이터의 실제 DocumentsUI와 WebView 및 합성 HTML을 사용했습니다. 테스트 제공자는 별도 테스트 APK에만 있습니다. [실행 로그와 확인 범위](docs/VERIFICATION.md).
+시간표 규칙 70개와 Kotlin 단위 검사 18개를 사용합니다. API35 전용 에뮬레이터의 실제 DocumentsUI와 WebView에서 최신 템플릿과 최종 APK를 검사합니다. 테스트 제공자와 합성 여행 파일은 별도 테스트 APK에만 있습니다. [실행 로그와 확인 범위](docs/VERIFICATION.md).
 
-배포 APK 검토 당시 lint 오류 0 / 경고 4였습니다. 공개 소스 checkout에서도 정책 57 assertions와 빌드가 성공했고 lint 오류 0 / 경고 3을 확인했습니다.
+`app/src/test`는 문서 origin·링크 정책·제목·CSS 색상을 검사합니다. `app/src/androidTest`는 파일 선택·저장·회전·재실행·도구·복구·큰 글씨·아이콘·시간표 모달을 검사합니다. 합성 이메일과 장소 URL은 테스트 데이터입니다. GitHub Actions는 정확한 커밋의 시간표 규칙·lint·Kotlin 단위 검사와 앱/시험 APK 빌드를 실행합니다. CI가 만든 별도 Debug 키의 APK는 배포하지 않습니다.
 
-`app/src/policyTest`는 문서 origin·링크 정책·제목·CSS 색상을 검사합니다. `app/src/androidTest`는 파일 선택·저장·회전·재실행·도구·복구·큰 글씨·아이콘을 검사합니다. 합성 이메일과 장소 URL은 테스트 데이터입니다.
-
-`scripts/verify-emulator.ps1`과 `scripts/verify-presentation.ps1`은 이름이 `SimpleHtmlViewerApi35`인 전용 에뮬레이터만 허용합니다. 일반 에뮬레이터 검사는 Maps 비활성화와 재부팅을 포함하므로 공유 기기에서 실행하지 마세요. 화면 검사는 해상도·글씨 크기를 잠시 변경한 뒤 복원합니다.
+`scripts/verify-emulator.ps1 -Serial emulator-5580`은 이름이 `SimpleHtmlViewerApi35`인 전용 에뮬레이터만 허용합니다. Maps 비활성화·해상도·글씨 크기 변경을 잠시 적용한 뒤 복원합니다. 공유 기기에서 실행하지 마세요. `verify-itinerary.ps1`은 시간표·기본 뷰어 여정만 실행하고 `verify-presentation.ps1`은 200% 글씨·좁은 화면을 검사합니다.
 
 현재 APK의 실폰 표시·API26–32 실기 실행·TalkBack 음성 탐색·실제 런처 테마 아이콘 활성 상태는 이번 자동 검사로 확인하지 않았습니다.
 
 ## 소스 구조
 
-- `DocumentAddress`·`LinkPolicy`·`DocumentTitle`·`CssColor`: Android I/O와 분리된 문서·링크·표현 규칙.
+- `domain/DocumentAddress`·`LinkPolicy`·`DocumentTitle`·`PageColor`: Android I/O와 분리된 문서·링크·표현 규칙.
 - `DocumentSource`: SAF 지속 권한을 확인하고 선택한 문서만 읽습니다.
 - `ExternalLinks`: 사용자 링크를 안전한 Android Intent로 전달합니다.
-- `FileChoiceScreen`·`DocumentToolsPanel`·`ReadingNotice`: 첫 화면·일시 도구·문서 위 안내를 담당합니다.
+- `ui/StartScreens`·`DocumentToolsSheet`·`ReaderApp`: Compose 첫 화면·일시 도구·뒤로 가기를 담당합니다.
+- `reader/DocumentReader`: WebView 수명주기·문서 렌더링·HTML dialog를 담당합니다.
 - `ViewerActivity`: WebView 수명주기·파일 선택·뒤로 가기 흐름을 연결합니다.
 
 ## 라이선스

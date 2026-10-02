@@ -1,56 +1,46 @@
 param(
     [Parameter(Mandatory = $true)][string]$Serial,
-    [string]$OutputDirectory
+    [string]$OutputDirectory = 'verification\android'
 )
 $ErrorActionPreference = 'Stop'
-$projectRoot = Split-Path $PSScriptRoot -Parent
-$reportDirectory = if ($OutputDirectory) { $OutputDirectory } else { Join-Path $projectRoot 'verification\codex-review' }
-New-Item -ItemType Directory -Path $reportDirectory -Force | Out-Null
-if ($Serial -notmatch '^emulator-\d+$') { throw 'Only the isolated viewer emulator may be used.' }
-
+$root = Split-Path $PSScriptRoot -Parent
+$report = Join-Path $root $OutputDirectory
+$adb = Join-Path $env:ANDROID_HOME 'platform-tools\adb.exe'
+if ($Serial -notmatch '^emulator-\d+$') { throw 'Only the dedicated viewer emulator is allowed.' }
+if ((& $adb -s $Serial emu avd name) -notcontains 'SimpleHtmlViewerApi35') { throw 'AVD identity mismatch.' }
+New-Item -ItemType Directory -Path $report -Force | Out-Null
 function Invoke-Adb([string[]]$Arguments) {
-    $output = & adb -s $Serial @Arguments 2>&1
-    if ($LASTEXITCODE -ne 0) { throw ($output -join "`n") }
-    return $output
+    $result = & $adb -s $Serial @Arguments 2>&1
+    if ($LASTEXITCODE -ne 0) { throw ($result -join "`n") }
+    return $result
 }
-
-$avdName = Invoke-Adb @('emu', 'avd', 'name')
-if ($avdName -notcontains 'SimpleHtmlViewerApi35') { throw 'AVD must be named SimpleHtmlViewerApi35.' }
-$originalFont = (Invoke-Adb @('shell', 'settings', 'get', 'system', 'font_scale')) -join ''
-$originalSize = (Invoke-Adb @('shell', 'wm', 'size')) -join "`n"
-$originalDensity = (Invoke-Adb @('shell', 'wm', 'density')) -join "`n"
-if ($originalDensity -notmatch '(?m)^Physical density: 420\s*$' -or $originalDensity -match 'Override') {
-    throw 'The narrow-screen fixture expects an unmodified 420 dpi viewer AVD.'
+function Invoke-Phase([string]$Class, [string]$Name, [int]$Count, [string[]]$Extra = @()) {
+    $result = Invoke-Adb (@('shell', 'am', 'instrument', '-w', '-e', 'class', "com.triphtml.viewer.$Class") +
+        $Extra + @('com.triphtml.viewer.test/androidx.test.runner.AndroidJUnitRunner'))
+    $result | Set-Content -LiteralPath (Join-Path $report "$Name.log") -Encoding utf8
+    $result | Select-Object -Last 8
+    if (($result -join "`n") -notmatch "OK \($Count tests?\)") { throw "Android phase failed: $Class" }
 }
-$restoreSize = if ($originalSize -match 'Override size: (\d+x\d+)') { $Matches[1] } else { 'reset' }
+$font = (Invoke-Adb @('shell', 'settings', 'get', 'system', 'font_scale')) -join ''
+$size = (Invoke-Adb @('shell', 'wm', 'size')) -join "`n"
+$density = (Invoke-Adb @('shell', 'wm', 'density')) -join "`n"
+if ($density -notmatch '(?m)^Physical density: 420\s*$' -or $density -match 'Override') {
+    throw 'The narrow-screen test requires the dedicated AVD at its original 420 dpi.'
+}
+$restoreSize = if ($size -match 'Override size: (\d+x\d+)') { $Matches[1] } else { 'reset' }
 try {
-    # 840 pixels at 420 dpi gives a 320dp-wide screen. Landscape is deliberately short.
     Invoke-Adb @('shell', 'wm', 'size', '840x1600') | Out-Null
     Invoke-Adb @('shell', 'settings', 'put', 'system', 'font_scale', '2.0') | Out-Null
     Invoke-Adb @('shell', 'am', 'force-stop', 'com.triphtml.viewer') | Out-Null
-    $output = Invoke-Adb @('shell', 'am', 'instrument', '-w', '-e', 'phase', 'presentation',
-        'com.triphtml.viewer.test/com.triphtml.viewer.ViewerInstrumentation')
-    $output | Set-Content -LiteralPath (Join-Path $reportDirectory 'presentation.log') -Encoding utf8
-    $text = $output -join "`n"
-    Write-Output $text
-    if ($text -notmatch 'Viewer tests: 3 passed\. 0 failed\.') { throw 'Presentation checks failed.' }
+    Invoke-Phase 'PresentationTest' 'presentation' 2
     try {
-        # The fixture provider belongs to the test APK. Only its UID can mark its document deleted.
         Invoke-Adb @('shell', 'run-as', 'com.triphtml.viewer.test', 'touch', 'files/deleted') | Out-Null
-        $output = Invoke-Adb @('shell', 'am', 'instrument', '-w', '-e', 'phase', 'presentation-deleted',
-            'com.triphtml.viewer.test/com.triphtml.viewer.ViewerInstrumentation')
-        $output | Set-Content -LiteralPath (Join-Path $reportDirectory 'presentation-deleted.log') -Encoding utf8
-        $text = $output -join "`n"
-        Write-Output $text
-        if ($text -notmatch 'Viewer tests: 1 passed\. 0 failed\.') { throw 'Recovery presentation check failed.' }
+        Invoke-Phase 'DeletedDocumentTest' 'presentation-deleted' 1 @('-e', 'orientation', 'landscape')
     } finally {
         Invoke-Adb @('shell', 'run-as', 'com.triphtml.viewer.test', 'rm', '-f', 'files/deleted') | Out-Null
     }
 } finally {
     Invoke-Adb @('shell', 'wm', 'size', $restoreSize) | Out-Null
-    if ($originalFont -eq 'null') {
-        Invoke-Adb @('shell', 'settings', 'delete', 'system', 'font_scale') | Out-Null
-    } else {
-        Invoke-Adb @('shell', 'settings', 'put', 'system', 'font_scale', $originalFont) | Out-Null
-    }
+    if ($font -eq 'null') { Invoke-Adb @('shell', 'settings', 'delete', 'system', 'font_scale') | Out-Null }
+    else { Invoke-Adb @('shell', 'settings', 'put', 'system', 'font_scale', $font) | Out-Null }
 }

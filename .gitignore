@@ -1,6 +1,11 @@
 .gradle/
+.kotlin/
 build/
 **/build/
+/verification/
+/dist/
+app/src/androidTest/assets/itinerary-*.html
+hs_err_pid*.log
 local.properties
 *.jks
 *.keystore

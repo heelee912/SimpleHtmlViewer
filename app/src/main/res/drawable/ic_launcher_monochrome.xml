@@ -1,0 +1,11 @@
+<!--
+  Same geometry as the colour icon. Themed icons keep only alpha, so the ribbon is cut out of the page
+  (even-odd) and its notched tail stays solid below the page. Otherwise it would vanish into the page.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+        android:pathData="M41,27 H67 Q72,27 72,32 V73 Q72,78 67,78 H41 Q36,78 36,73 V32 Q36,27 41,27 Z
+            M57,27 H65 V85 L61,81 L57,85 Z" />
+</vector>

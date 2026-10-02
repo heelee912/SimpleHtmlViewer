@@ -1,0 +1,13 @@
+<!-- The launcher icon flattened into one vector for in-app use (Compose cannot draw adaptive icons). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp" android:height="32dp"
+    android:viewportWidth="72" android:viewportHeight="72">
+    <group android:translateX="-18" android:translateY="-18">
+        <path android:fillColor="@color/launcher_background"
+            android:pathData="M54,18 A36,36 0 1 1 53.99,18 Z" />
+        <path android:fillColor="@color/icon_paper"
+            android:pathData="M41,27 H67 Q72,27 72,32 V73 Q72,78 67,78 H41 Q36,78 36,73 V32 Q36,27 41,27 Z" />
+        <path android:fillColor="@color/icon_ribbon"
+            android:pathData="M57,27 H65 V85 L61,81 L57,85 Z" />
+    </group>
+</vector>

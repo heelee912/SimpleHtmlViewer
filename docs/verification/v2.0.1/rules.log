@@ -1,0 +1,71 @@
+PASS backward cutoff uses walk, boarding margin and the fixed transfer
+PASS last safe service differs from route last service
+PASS first over-boundary service identifies the missed transfer
+PASS planned, earlier and later viable departures all remain
+PASS synthetic complete example has no structural errors
+PASS one planned row cannot pass coverage
+PASS missing a row inside source coverage is detected
+PASS invented extra covered departure is detected
+PASS incomplete coverage cannot label last safe
+PASS missing coverage reason is detected
+PASS no official source cannot certify a timetable
+PASS missing source check date is detected
+PASS missing source applicability is detected
+PASS nonofficial material cannot be marked confirmed
+PASS wrong service date is detected
+PASS weekday mismatch is detected
+PASS holiday and suspension applicability cannot be omitted
+PASS cancelled service is not a safe alternative
+PASS cancelled route last is not accepted as the operating last service
+PASS route last on another date is not presented as confirmed
+PASS unbooked route last remains the operating last departure
+PASS sold-out route last preserves the operating last departure and the unrelated valid last safe service
+PASS a nonoperating route last still produces a route-last error
+PASS cancelled fixed connection reports its name and reason
+PASS nonoperating fixed connection explains why it cannot connect
+PASS unbooked fixed connection explains the missing reservation
+PASS sold-out fixed connection explains the boarding failure
+PASS unbooked mandatory reservation is uncertain rather than safe
+PASS unknown times stay unknown with no invented substitute
+PASS unknown marked row with fabricated time is rejected
+PASS invalid minute value is rejected
+PASS midnight crossing must use an explicit next-day offset
+PASS duplicate row ids are rejected
+PASS minimum visit cannot silently disappear
+PASS boarding margin cannot silently disappear
+PASS every transfer needs its own walking and boarding allowance
+PASS a visit before the last entry does not count as minimum sightseeing afterward
+PASS negative walking duration is rejected
+PASS uncertain transfer suppresses confident cutoff
+PASS event deadline uses minimum visit and movement
+PASS last entry earlier than onward arrival breaks the chain
+PASS hotel closing deadline is included in backward calculation
+PASS no deadline cannot invent a last safe departure
+PASS early arrival cannot leave an event before its scheduled start
+PASS zero boarding buffer is rejected
+PASS negative backward clock cannot produce a bogus cutoff
+PASS malformed row does not crash the modal analysis
+PASS route last cannot precede a later listed departure
+PASS card and timetable planned departure must match
+PASS standalone chain cannot certify the actual itinerary without context
+PASS moving the actual next visit to 11:15 fails linkage and suppresses every safe label
+PASS a final-check-clean in-memory fixture fails after changing only the body visit time
+PASS moving an actual following event end is detected
+PASS an added body event cannot be omitted from the linked chain
+PASS removing an actual event cannot leave a phantom chain event
+PASS a body deadline change invalidates its copied chain condition
+PASS a body condition missing from onward cannot disappear silently
+PASS actual downstream transport reservation is compared with the fixed connection
+PASS changed actual downstream cancellation names the blocked connection in the upstream modal analysis
+PASS changed actual downstream sold-out status names the boarding failure upstream
+PASS changed variant timing is checked independently of the base itinerary
+PASS scheduled transport cannot bypass checks by omitting serviceId
+PASS example is rejected as a final travel file
+PASS source-only example never becomes default trip data
+PASS runtime never reads source-only example or writer contract
+PASS legacy undefined UI helpers have been removed
+PASS completion catches guidance, fake places and placeholder tokens
+PASS traveler uncertainty and itinerary risk are not author guidance
+PASS ordinary traveler wording is not mistaken for an empty place field
+PASS actual day arrays of five and eight pass without ten-day requirement
+Itinerary rules: 70 passed. 0 failed.

@@ -1,0 +1,26 @@
+PASS real SAF selection + inline JavaScript/CSS
+PASS document opens full screen with no host chrome
+PASS Back opens labelled 48dp document tools without resizing the page
+PASS Continue reading returns to the same scroll position
+PASS accessibility action opens tools and scrim tap closes them
+PASS cancelled picker keeps the document and reading position
+PASS refresh keeps document access and localStorage
+PASS Activity recreation retains storage and file access
+PASS rotation retains document
+FAIL internal anchor stays in document: java.lang.IllegalArgumentException: Targeted input event injection from pid 4548 was not directed at a window owned by uid 10209.
+FAIL previous position appears only with document history and returns there: java.lang.AssertionError: Expected ok but got hidden
+FAIL refresh after anchor rereads file: java.lang.AssertionError: Anchor failed before refresh
+PASS user link dispatch: external
+PASS user link dispatch: blank
+PASS user link dispatch: popup
+PASS user link dispatch: maps
+PASS background navigation and popup cannot start apps
+PASS separate relative resources fail closed with a dismissible overlay notice
+PASS different document isolates localStorage and original reopens
+PASS revoked permission shows recovery UI
+PASS second Back leaves the app and relaunch resumes reading
+
+Viewer tests: 18 passed. 3 failed.
+internal anchor stays in document: java.lang.IllegalArgumentException: Targeted input event injection from pid 4548 was not directed at a window owned by uid 10209.
+previous position appears only with document history and returns there: java.lang.AssertionError: Expected ok but got hidden
+refresh after anchor rereads file: java.lang.AssertionError: Anchor failed before refresh

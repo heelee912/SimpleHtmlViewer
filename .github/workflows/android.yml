@@ -1,0 +1,35 @@
+name: Android and itinerary checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Install build SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Verify itinerary rules and generate synthetic test documents
+        run: |
+          node scripts/test-itinerary.mjs
+          node scripts/prepare-itinerary-fixtures.mjs
+      - name: Lint, unit tests and APK compilation
+        run: bash gradlew --no-daemon :app:lintDebug :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
+      # CI validates compilation. The published APK is signed and tested separately with the existing key.
