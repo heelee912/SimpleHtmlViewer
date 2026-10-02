@@ -23,9 +23,10 @@ jobs:
         with:
           node-version: '22'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
+          log-accepted-android-sdk-licenses: 'false'
       - uses: gradle/actions/setup-gradle@v4
-      - name: Install build SDK
-        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
       - name: Verify itinerary rules and generate synthetic test documents
         run: |
           node scripts/test-itinerary.mjs
