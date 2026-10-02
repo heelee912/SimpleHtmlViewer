@@ -1,0 +1,25 @@
+PASS real SAF selection + inline JavaScript/CSS
+PASS document opens full screen with no host chrome
+PASS Back opens labelled 48dp document tools without resizing the page
+PASS Continue reading returns to the same scroll position
+PASS accessibility action opens tools and scrim tap closes them
+PASS cancelled picker keeps the document and reading position
+PASS refresh keeps document access and localStorage
+PASS Activity recreation retains storage and file access
+PASS rotation retains document
+PASS internal anchor stays in document
+PASS previous position appears only with document history and returns there
+PASS refresh after anchor rereads file
+PASS user link dispatch: external
+PASS user link dispatch: blank
+PASS user link dispatch: popup
+PASS user link dispatch: maps
+PASS background navigation and popup cannot start apps
+PASS separate relative resources fail closed with a dismissible overlay notice
+PASS different document isolates localStorage and original reopens
+PASS revoked permission shows recovery UI
+PASS second Back leaves the app and relaunch resumes reading
+
+Viewer tests: 21 passed. 0 failed.
+
+

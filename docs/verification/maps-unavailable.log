@@ -1,0 +1,6 @@
+PASS maps-absent launches external app and returns to same document
+PASS no geo handler returns failure without crash
+
+Viewer tests: 2 passed. 0 failed.
+
+
