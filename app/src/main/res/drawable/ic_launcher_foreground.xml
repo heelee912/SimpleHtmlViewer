@@ -1,0 +1,18 @@
+<!--
+  An itinerary sheet with three day tabs on its right edge. The middle tab is "today" and the
+  matching row is cut out of the sheet. Tabs are attached, so the outline stays one bold silhouette
+  at launcher size. The monochrome layer reuses this drawable: Android keeps only its alpha, which is
+  the same silhouette. Geometry stays inside the 66-unit safe circle of the 108-unit canvas.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="@color/icon_paper" android:fillType="evenOdd"
+        android:pathData="M38,28 H62 Q66,28 66,32 V76 Q66,80 62,80 H38 Q34,80 34,76 V32 Q34,28 38,28 Z
+            M40,49 H60 V55 H40 Z" />
+    <path android:fillColor="@color/icon_paper"
+        android:pathData="M64,33 H71 Q74,33 74,36 V40 Q74,43 71,43 H64 Z
+            M64,61 H71 Q74,61 74,64 V68 Q74,71 71,71 H64 Z" />
+    <path android:fillColor="@color/icon_today"
+        android:pathData="M64,47 H71 Q74,47 74,50 V54 Q74,57 71,57 H64 Z" />
+</vector>

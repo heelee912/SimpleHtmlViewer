@@ -1,0 +1,6 @@
+<resources>
+    <!-- Dark navigation buttons on the light surface. The attribute exists from Android 8.1. -->
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

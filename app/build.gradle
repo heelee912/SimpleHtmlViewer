@@ -1,0 +1,34 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'com.triphtml.viewer'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.triphtml.viewer'
+        minSdk 26
+        targetSdk 35
+        versionCode 2
+        versionName '1.1'
+        testInstrumentationRunner 'com.triphtml.viewer.ViewerInstrumentation'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    lint { abortOnError true; checkReleaseBuilds true }
+}
+
+// Domain tests use the JDK alone. The shipping APK has no third-party dependencies.
+tasks.register('compilePolicyTests', JavaCompile) {
+    source fileTree('src/main/java') { include '**/DocumentAddress.java', '**/LinkPolicy.java', '**/DocumentTitle.java', '**/CssColor.java' }
+    source fileTree('src/policyTest/java')
+    classpath = files()
+    destinationDirectory = layout.buildDirectory.dir('policy-tests')
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+tasks.register('policyTest', JavaExec) {
+    dependsOn 'compilePolicyTests'
+    classpath = files(layout.buildDirectory.dir('policy-tests'))
+    mainClass = 'com.triphtml.viewer.PolicyTests'
+}

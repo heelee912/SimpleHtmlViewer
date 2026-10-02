@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HTML viewer verification</title>
+<style>body{font-family:sans-serif;padding:12px;background:#f5f7f6;color:#173b35}a,button{display:block;padding:12px;margin:6px 0;font-size:16px}#css{color:rgb(0,128,0)}#day2{margin-top:900px}</style>
+<h1>Travel test</h1><p id="css">CSS ready</p><p id="count"></p>
+<a id="anchor" href="#day2">Day 2 anchor</a>
+<a id="external" href="https://example.com/travel">External browser</a>
+<a id="blank" href="https://example.com/new-tab" target="_blank">New tab link</a>
+<button id="popup" onclick="window.open('https://example.com/popup','_blank')">User window.open</button>
+<a id="maps" href="https://www.google.com/maps/search/?api=1&amp;query=Tokyo+Station">Maps</a>
+<a id="geo" href="geo:35.6812,139.7671?q=Tokyo+Station">Geo</a>
+<a id="missing" href="geo:0,0?q=NoHandlerTest">Maps absent test</a>
+<h2 id="day2">Day 2</h2>
+<script>
+localStorage.setItem('visits',String(Number(localStorage.getItem('visits')||0)+1));
+document.getElementById('count').textContent='Visits: '+localStorage.getItem('visits');
+window.fixtureReady=true;
+</script></html>

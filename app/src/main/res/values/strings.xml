@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">여행 HTML 뷰어</string>
+
+    <!-- Document tools: opened with Back while reading. -->
+    <string name="tools_title">문서 도구</string>
+    <string name="tools_file_label">열린 파일</string>
+    <string name="resume_reading">읽기 계속</string>
+    <string name="refresh">새로고침</string>
+    <string name="open_file">다른 파일 열기</string>
+    <string name="previous_position">이전 위치로</string>
+    <string name="exit_hint">뒤로 가기를 한 번 더 누르면 앱이 닫힙니다.</string>
+    <string name="show_controls">문서 도구 열기</string>
+
+    <!-- File choice: first visit, opening and recovery. -->
+    <string name="welcome_title">일정 HTML을 고르면 바로 전체 화면으로 열립니다</string>
+    <string name="welcome_tools_label">읽는 중에 도구가 필요하면</string>
+    <string name="welcome_tools">뒤로 가기를 누르세요. 새로고침과 다른 파일 열기가 나옵니다.</string>
+    <string name="welcome_resume_label">다시 열 때</string>
+    <string name="welcome_resume">마지막 문서를 보던 위치에서 엽니다.</string>
+    <string name="choose_document">HTML 파일 열기</string>
+    <string name="choose_again">파일 다시 선택</string>
+    <string name="retry">다시 시도</string>
+    <string name="loading">문서를 여는 중…</string>
+
+    <string name="recovery_title">파일을 열 수 없습니다</string>
+    <string name="file_unavailable">삭제·이동되었거나 접근 권한이 해제되었을 수 있습니다.</string>
+    <string name="page_failed_title">문서를 표시하지 못했습니다</string>
+    <string name="page_failed">다시 시도하거나 파일을 다시 선택해 주세요.</string>
+    <string name="permission_title">계속 읽을 권한을 받지 못했습니다</string>
+    <string name="permission_unavailable">이 저장소는 지속 접근 권한을 허용하지 않았습니다. 기기에 저장한 HTML 파일을 선택해 주세요.</string>
+    <string name="picker_title">파일 선택 화면을 열 수 없습니다</string>
+    <string name="picker_unavailable">이 기기에서 파일 선택 앱을 사용할 수 없습니다.</string>
+
+    <!-- Short notices over a rendered document. -->
+    <string name="selection_failed">선택한 파일을 읽을 수 없습니다. 지금 문서는 그대로입니다.</string>
+    <string name="relative_unsupported">별도 파일로 된 이미지·CSS·스크립트(상대경로)는 불러오지 않습니다. 하나의 HTML로 묶어 주세요.</string>
+    <string name="link_unavailable">이 링크를 열 수 있는 앱이 없습니다.</string>
+    <string name="dismiss_notice">닫기</string>
+</resources>
