@@ -72,13 +72,13 @@ Maps 설치 검사에서는 Intent 요청만 가로채는 방식이 아니라 �
 
 ## 코드 근거
 
-- [DocumentSource](../app/src/main/java/com/triphtml/viewer/DocumentSource.java): `takePersistableUriPermission`으로 선택 파일의 지속 읽기 권한을 받고 매번 원본 접근을 확인합니다.
-- [DocumentAddress](../app/src/main/java/com/triphtml/viewer/DocumentAddress.java): 선택 URI로 문서별 고정 origin을 만듭니다. `.invalid` 주소는 파일을 WebView에 제공하기 위한 내부 주소이며 서버를 실행하지 않습니다.
-- [ViewerActivity](../app/src/main/java/com/triphtml/viewer/ViewerActivity.java): JS·DOM storage, 기본 렌더링, 전체화면, 도구 열기/숨기기, 사용자 외부 탐색과 새 창을 처리합니다.
-- [ExternalLinks](../app/src/main/java/com/triphtml/viewer/ExternalLinks.java): 안전한 `ACTION_VIEW`를 만들고 Google Maps 패키지를 먼저 시도합니다. 외부 화면을 열어도 문서 WebView는 유지됩니다.
-- [LinkPolicy](../app/src/main/java/com/triphtml/viewer/LinkPolicy.java): 내부 문서·외부 링크·차단을 구분합니다. 사용자 조작 없는 외부 실행은 막습니다.
-- [AndroidManifest](../app/src/main/AndroidManifest.xml)와 [빌드 설정](../app/build.gradle): 요청 권한은 인터넷 하나이며 광고 SDK·서버·런타임 외부 라이브러리 의존성이 없습니다.
-- [Android 검사 구현](../app/src/androidTest/java/com/triphtml/viewer/ViewerInstrumentation.java): 각 검사에 사용한 조건과 판정을 공개합니다.
+- [DocumentSource](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/main/java/com/triphtml/viewer/DocumentSource.java): `takePersistableUriPermission`으로 선택 파일의 지속 읽기 권한을 받고 매번 원본 접근을 확인합니다.
+- [DocumentAddress](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/main/java/com/triphtml/viewer/DocumentAddress.java): 선택 URI로 문서별 고정 origin을 만듭니다. `.invalid` 주소는 파일을 WebView에 제공하기 위한 내부 주소이며 서버를 실행하지 않습니다.
+- [ViewerActivity](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/main/java/com/triphtml/viewer/ViewerActivity.java): JS·DOM storage, 기본 렌더링, 전체화면, 도구 열기/숨기기, 사용자 외부 탐색과 새 창을 처리합니다.
+- [ExternalLinks](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/main/java/com/triphtml/viewer/ExternalLinks.java): 안전한 `ACTION_VIEW`를 만들고 Google Maps 패키지를 먼저 시도합니다. 외부 화면을 열어도 문서 WebView는 유지됩니다.
+- [LinkPolicy](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/main/java/com/triphtml/viewer/LinkPolicy.java): 내부 문서·외부 링크·차단을 구분합니다. 사용자 조작 없는 외부 실행은 막습니다.
+- [AndroidManifest](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/main/AndroidManifest.xml)와 [빌드 설정](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/build.gradle): 요청 권한은 인터넷 하나이며 광고 SDK·서버·런타임 외부 라이브러리 의존성이 없습니다.
+- [Android 검사 구현](https://github.com/heelee912/SimpleHtmlViewer/blob/af761b5b48dd6c62316ebb8add774bb6fa03f447/app/src/androidTest/java/com/triphtml/viewer/ViewerInstrumentation.java): 각 검사에 사용한 조건과 판정을 공개합니다.
 
 ## 지원 범위와 미검증
 
